@@ -10,6 +10,9 @@ import ExpandedView from '@/components/ExpandedView'
 import { ProductColors } from '@/types/product'
 import { CustomizationOrder } from '@/types/order'
 import { toast } from 'react-hot-toast' // 需要安装: npm install react-hot-toast
+import PageLayout from '@/components/PageLayout'
+import ProductLayout from '@/components/ProductLayout'
+import SearchBar from '@/components/SearchBar'
 
 export default function ProductCustomizationPage() {
   const [selectedColors, setSelectedColors] = useState<ProductColors>({});
@@ -17,8 +20,7 @@ export default function ProductCustomizationPage() {
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [customPantones, setCustomPantones] = useState<Record<string, string>>({});
-
-  const handleColorChange = (partName: string, color: string) => {
+  const handleColorChange = (partName: string, color: { color: string; pantone?: string; name: string }) => {
     setSelectedColors(prev => ({
       ...prev,
       [partName]: color
@@ -76,34 +78,62 @@ export default function ProductCustomizationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <CategoryFilter 
-        onCategoryChange={handleCategoryChange}
-        onFilterChange={handleFilterChange}
-        onSearch={handleSearch}
-      />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <ProductImage selectedColors={selectedColors} />
-          <ModelViewer selectedColors={selectedColors} />
-          <ColorCustomization 
-            selectedColors={selectedColors}
-            onColorChange={handleColorChange}
-            customPantones={customPantones}
-            onCustomPantoneChange={handleCustomPantoneChange}
-          />
-          <ExpandedView selectedColors={selectedColors} />
+    <PageLayout>
+      <div className="space-y-8">
+        {/* 搜索栏 */}
+        <div className="w-full">
+          <SearchBar onSearch={handleSearch} />
         </div>
-        <div className="mt-8">
-          <OrderForm 
+
+        {/* 分类和筛选栏 */}
+        <CategoryFilter
+          onCategoryChange={handleCategoryChange}
+          onFilterChange={handleFilterChange}
+          onSearch={handleSearch}
+        />
+
+        {/* 整体照片和3D模型栏（并排） */}
+        <div className="flex gap-8">
+          <div className="w-2/3">
+            <ProductImage
+              selectedColors={selectedColors}
+              className="w-full"
+            />
+          </div>
+          <div className="w-1/3">
+            <ModelViewer
+              selectedColors={selectedColors}
+              className="w-full"
+            />
+          </div>
+        </div>
+
+        {/* 展开图和颜色定制栏（并排） */}
+        <div className="flex gap-8">
+          <div className="w-2/3">
+            <ExpandedView
+              selectedColors={selectedColors}
+              className="w-full"
+            />
+          </div>
+          <div className="w-1/3">
+            <ColorCustomization
+              onColorChange={handleColorChange}
+              selectedColors={selectedColors}
+              customPantones={customPantones}
+              onCustomPantoneChange={handleCustomPantoneChange}
+            />
+          </div>
+        </div>
+
+        {/* 提交定制信息栏 */}
+        <div className="max-w-2xl mx-auto">
+          <OrderForm
             selectedColors={selectedColors}
             onSubmit={handleSubmitOrder}
-            selectedCategory={selectedCategory}
-            activeFilters={{}}
           />
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 } 

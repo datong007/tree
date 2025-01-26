@@ -31,7 +31,9 @@ export default function ExpandedView({
       <h2 className="text-xl font-semibold mb-4">展开视图</h2>
       <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         <Image 
-          src={`/api/product-expanded-view?${new URLSearchParams(selectedColors)}`}
+          src={`/api/product-expanded-view?${new URLSearchParams(
+            Object.entries(selectedColors).map(([key, value]) => [key, value.color])
+          )}`}
           alt="Expanded View"
           fill
           className={`object-contain ${className}`}
