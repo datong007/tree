@@ -21,15 +21,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
+    "/product-customization/[productId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/product-customization/[productId]/page.js"
+    ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
-    ],
-    "/product-customization/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/product-customization/page.js"
     ]
   }
 }

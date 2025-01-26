@@ -1,18 +1,33 @@
 export const logError = (error: Error, errorInfo?: any) => {
-  // 在开发环境下打印错误
+  // 添加错误级别
+  const errorLevel = error.name === 'ValidationError' ? 'warning' : 'error';
+  
+  // 结构化错误日志
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    level: errorLevel,
+    message: error.message,
+    stack: error.stack,
+    additionalInfo: errorInfo,
+    environment: process.env.NODE_ENV
+  };
+
+  // 开发环境日志
   if (process.env.NODE_ENV === 'development') {
-    console.error('Error:', error);
-    if (errorInfo) {
-      console.error('Error Info:', errorInfo);
+    console.error('错误:', errorLog);
+  }
+
+  // 生产环境错误上报
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      // 示例：Sentry 集成
+      if (process.env.SENTRY_DSN) {
+        // Sentry.captureException(error, { extra: errorInfo });
+      }
+    } catch (reportError) {
+      console.error('错误上报失败:', reportError);
     }
   }
 
-  // 这里可以添加错误上报逻辑
-  // 例如发送到错误监控服务
-  try {
-    // 可以集成 Sentry、LogRocket 等服务
-    // 或者发送到自己的错误收集接口
-  } catch (reportError) {
-    console.error('Error reporting failed:', reportError);
-  }
+  return errorLog;
 }; 

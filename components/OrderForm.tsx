@@ -34,10 +34,7 @@ export default function OrderForm({
     setIsSubmitting(true);
     
     try {
-      await onSubmit({
-        ...formData,
-        colors: selectedColors,
-      });
+      onSubmit(formData);
       setSubmitStatus('success');
       // 重置表单
       setFormData({

@@ -11,22 +11,28 @@ export const CATEGORIES: Category[] = [
 
 export const FILTERS: Filter[] = [
   {
-    id: 'style',
-    name: '风格',
+    id: 'brand',
+    name: '品牌',
     options: [
-      { id: 'casual', name: '休闲' },
-      { id: 'formal', name: '正式' },
-      { id: 'sports', name: '运动' },
+      { id: 'brand-a', name: '品牌A' },
+      { id: 'brand-b', name: '品牌B' },
+      { id: 'brand-c', name: '品牌C' },
     ],
   },
   {
-    id: 'season',
-    name: '季节',
+    id: 'isNew',
+    name: '新品',
     options: [
-      { id: 'spring', name: '春季' },
-      { id: 'summer', name: '夏季' },
-      { id: 'autumn', name: '秋季' },
-      { id: 'winter', name: '冬季' },
+      { id: 'true', name: '是' },
+      { id: 'false', name: '否' },
+    ],
+  },
+  {
+    id: 'isHot',
+    name: '热销品',
+    options: [
+      { id: 'true', name: '是' },
+      { id: 'false', name: '否' },
     ],
   },
 ]; 
