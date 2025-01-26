@@ -1,16 +1,30 @@
 import { NextResponse } from 'next/server';
 import { join } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 
 export async function GET(request: Request) {
   try {
-    // 从查询参数获取颜色信息
     const { searchParams } = new URL(request.url);
     const colors = Object.fromEntries(searchParams);
     
-    // 这里可以根据 colors 参数选择不同的图片
-    // 现在先返回默认图片
+    // Basic validation
+    if (typeof colors !== 'object') {
+      return NextResponse.json(
+        { error: 'Invalid color format' },
+        { status: 400 }
+      );
+    }
+    
     const imagePath = join(process.cwd(), 'public', 'products', 'default.png');
+    
+    // Add file existence check
+    if (!existsSync(imagePath)) {
+      return NextResponse.json(
+        { error: 'Image not found' },
+        { status: 404 }
+      );
+    }
+    
     const imageBuffer = readFileSync(imagePath);
     
     return new NextResponse(imageBuffer, {
@@ -21,6 +35,9 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('Error loading image:', error);
-    return new NextResponse('Image not found', { status: 404 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 } 
