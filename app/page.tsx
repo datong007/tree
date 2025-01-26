@@ -3,31 +3,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import FadeTransition from '@/components/FadeTransition'
+import RotatingTitle from '@/components/RotatingTitle'
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  const titles = [
-    { text: "产品定制系统", lang: "zh-CN" },
-    { text: "Product Customization System", lang: "en-US" },
-    { text: "製品カスタマイズシステム", lang: "ja-JP" },
-    { text: "제품 커스터마이징 시스템", lang: "ko-KR" },
-    { text: "Система настройки продукта", lang: "ru-RU" },
-    { text: "System personalizacji produktów", lang: "pl-PL" },
-    { text: "Sistema de Personalización de Productos", lang: "es-ES" }
-  ];
-
-  // 添加标题轮播效果
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const toggleMusic = () => {
     if (audioRef.current) {
@@ -53,7 +33,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 relative bg-gradient-to-b from-gray-50 to-gray-100">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 relative">
       <div className="relative w-80 h-80 mb-8 rounded-lg overflow-hidden shadow-xl">
         <Image
           src="/assets/welcome.jpg"
@@ -68,18 +48,12 @@ export default function Home() {
         />
       </div>
       
-      <div className="h-20 flex items-center justify-center">
-        <FadeTransition 
-          text={titles[currentTitleIndex].text}
-          lang={titles[currentTitleIndex].lang}
-        />
-      </div>
-
+      <RotatingTitle />
       <Link 
         href="/product-customization" 
         className="px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl"
       >
-        开始定制
+        Start
       </Link>
 
       <button
