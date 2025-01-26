@@ -18,8 +18,16 @@ export default function ProductCustomizationPage() {
     console.log('Search:', query);
   };
 
-  const handleCategoryChange = (category: string) => {
-    console.log('Category:', category);
+  const handleCategoryChange = (category: string, series?: string) => {
+    console.log('Category changed:', category, 'Series:', series);
+    // 这里可以根据类目和系列加载相应的产品数据
+    if (series) {
+      // 处理特定系列的产品
+      console.log(`Loading ${series} products from ${category} category`);
+    } else {
+      // 处理整个类目的产品
+      console.log(`Loading all products from ${category} category`);
+    }
   };
 
   const handleFilterChange = (filterId: string, value: string) => {
@@ -40,8 +48,27 @@ export default function ProductCustomizationPage() {
     }));
   };
 
-  const handleSubmitOrder = (data: any) => {
-    console.log('Order submitted:', data);
+  const handleSubmitOrder = async (formData: any) => {
+    try {
+      const response = await fetch('/api/submit-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('提交失败');
+      }
+
+      const data = await response.json();
+      return data;
+      
+    } catch (error) {
+      console.error('提交订单时出错:', error);
+      throw error;
+    }
   };
 
   return (

@@ -6,10 +6,10 @@ const titles = [
   { text: "製品カスタマイズシステムへようこそ", lang: "ja" },
   { text: "제품 맞춤 시스템에 오신 것을 환영합니다", lang: "ko" },
   { text: "Добро пожаловать в систему настройки продукта", lang: "ru" },
-  { text: "Witamy w Systemie Personalizacji", lang: "pl" },
+  { text: "Witamy w Systemie Personalizacji Produktów", lang: "pl" },
   { text: "Willkommen im Produktanpassungssystem", lang: "de" },
-  { text: "Bienvenido al Sistema de Personalización", lang: "es" },
-  { text: "Bienvenue dans le Système de Personnalisation", lang: "fr" },
+  { text: "Bienvenido al Sistema de Personalización de Productos", lang: "es" },
+  { text: "Bienvenue dans le Système de Personnalisation de Produits", lang: "fr" },
   { text: "ยินดีต้อนรับสู่ระบบการปรับแต่งผลิตภัณฑ์", lang: "th" },
   { text: "Selamat datang ke Sistem Penyesuaian Produk", lang: "ms" }
 ];
@@ -24,19 +24,20 @@ export default function RotatingTitle() {
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % titles.length);
         setIsVisible(true);
-      }, 300);
-    }, 3000);
+      }, 500);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <h1 
-      className={`text-5xl font-bold mb-8 transition-all duration-300
+      className={`text-6xl font-bold mb-8 transition-all duration-500
         ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
         bg-clip-text text-transparent bg-gradient-to-r 
         from-blue-400 via-purple-400 to-pink-400
-        drop-shadow-[0_0_15px_rgba(191,219,254,0.5)]`}
+        drop-shadow-[0_0_30px_rgba(191,219,254,0.5)]
+        tracking-wide`}
       lang={titles[currentIndex].lang}
     >
       {titles[currentIndex].text}

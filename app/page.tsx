@@ -7,38 +7,24 @@ import RotatingTitle from '@/components/RotatingTitle'
 import StarryBackground from '@/components/StarryBackground'
 
 export default function Home() {
-  const [currentLangIndex, setCurrentLangIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const welcomeTexts = [
-    { text: "欢迎使用产品定制系统", lang: "zh" },
-    { text: "Welcome to Product Customization", lang: "en" },
-    { text: "Bienvenue à la Personnalisation", lang: "fr" },
-    { text: "製品カスタマイズへようこそ", lang: "ja" }
-  ];
-
   useEffect(() => {
     // 初始化音频
     if (audioRef.current) {
-      audioRef.current.volume = 0.5; // 设置音量为50%
+      audioRef.current.volume = 0.5; // 设置音量为 50%
       audioRef.current.addEventListener('loadeddata', () => {
         setAudioLoaded(true);
-        console.log('Audio loaded successfully');
+        console.log('音频加载成功');
       });
       audioRef.current.addEventListener('error', (e) => {
-        console.error('Audio loading error:', e);
+        console.error('音频加载错误:', e);
       });
     }
 
-    // 语言切换定时器
-    const timer = setInterval(() => {
-      setCurrentLangIndex((prev) => (prev + 1) % welcomeTexts.length);
-    }, 3000);
-
     return () => {
-      clearInterval(timer);
       if (audioRef.current) {
         audioRef.current.removeEventListener('loadeddata', () => {});
         audioRef.current.removeEventListener('error', () => {});
@@ -57,7 +43,7 @@ export default function Home() {
       }
       setIsPlaying(!isPlaying);
     } catch (error) {
-      console.error('Error playing audio:', error);
+      console.error('播放音频时出错:', error);
     }
   };
 
@@ -73,7 +59,7 @@ export default function Home() {
                    hover:bg-blue-600 transition-all duration-300 
                    transform hover:scale-105 hover:shadow-lg"
         >
-          Start
+          开始定制
         </Link>
       </div>
 

@@ -19,23 +19,25 @@ export default function ProductImage({
   };
 
   const productInfo = {
-    title: "经典商务衬衫",
-    modelNumber: "BS-2024-001",
+    title: "塑料工具箱",
+    modelNumber: "PB-2024-A01",
     specifications: [
-      { label: "尺码", value: "S / M / L / XL / XXL" },
-      { label: "肩宽", value: "42-50cm" },
-      { label: "胸围", value: "96-116cm" },
-      { label: "衣长", value: "68-76cm" },
+      { label: "尺寸", value: "350×250×150mm" },
+      { label: "重量", value: "1.2kg" },
+      { label: "容量", value: "13L" },
+      { label: "承重", value: "最大15kg" },
     ],
     materials: [
-      "主面料：100% 精梳棉",
-      "纽扣：天然贝壳",
-      "衬布：进口树脂衬"
+      "主体材质：PP",
+      "把手：ABS",
+      "锁扣：尼龙",
+      "密封圈：TPE"
     ],
     usages: [
-      "商务场合",
-      "正式会议",
-      "日常办公"
+      "工具收纳",
+      "户外装备",
+      "汽车后备箱",
+      "工业用途"
     ]
   };
 
