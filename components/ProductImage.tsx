@@ -13,6 +13,11 @@ export default function ProductImage({
 }: ProductImageProps) {
   const [imageError, setImageError] = useState(false);
 
+  const handleImageError = () => {
+    setImageError(true);
+    console.error('Product image failed to load');
+  };
+
   if (imageError) {
     return (
       <div className="border rounded-lg p-4 flex items-center justify-center">
@@ -23,14 +28,15 @@ export default function ProductImage({
 
   return (
     <div className="border rounded-lg p-4">
-      <div className="relative w-full aspect-square">
+      <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         <Image 
-          src="/api/product-image"
+          src={`/api/product-image?${new URLSearchParams(selectedColors)}`}
           alt="Product View"
           fill
           className={`object-contain ${className}`}
-          onError={() => setImageError(true)}
+          onError={handleImageError}
           priority
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
     </div>

@@ -1,42 +1,31 @@
 import { PRODUCT_PARTS } from '@/config/product-parts';
+import { AVAILABLE_COLORS } from '@/config/colors';
+import { useState } from 'react';
+import type { ColorCustomizationProps } from '@/types/product';
 
-interface ColorCustomizationProps {
-  onColorChange: (partName: string, color: string) => void;
-  selectedColors: Record<string, string>;
-}
-
-export default function ColorCustomization({ 
+export default function ColorCustomization({
   onColorChange,
-  selectedColors 
+  selectedColors,
+  customPantones,
+  onCustomPantoneChange
 }: ColorCustomizationProps) {
-  // 这里假设有一个产品部件列表
-  const productParts = PRODUCT_PARTS;
-
-  const availableColors = [
-    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'
-    // ... 更多颜色选项
-  ];
-
   return (
-    <div className="border rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">颜色定制</h2>
-      <div className="space-y-4">
-        {productParts.map(part => (
+    <div className="bg-white p-6 rounded-lg shadow-sm">
+      <h2 className="text-xl font-semibold mb-4">颜色定制</h2>
+      <div className="space-y-6">
+        {PRODUCT_PARTS.map(part => (
           <div key={part.id} className="space-y-2">
-            <h3 className="font-medium">{part.name}</h3>
-            <div className="flex gap-2">
-              {availableColors.map(color => (
-                <button
-                  key={color}
-                  className={`w-8 h-8 rounded-full border-2 ${
-                    selectedColors[part.id] === color 
-                      ? 'border-black' 
-                      : 'border-transparent'
-                  }`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => onColorChange(part.id, color)}
-                />
-              ))}
+            <label className="block text-sm font-medium text-gray-700">
+              {part.name}
+            </label>
+            <div className="mt-2 p-2 bg-gray-50 rounded-md">
+              <input
+                type="text"
+                placeholder="输入潘通色号"
+                value={customPantones[part.id] || ''}
+                onChange={(e) => onCustomPantoneChange(part.id, e.target.value)}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
             </div>
           </div>
         ))}

@@ -1,7 +1,9 @@
 import { ProductPart } from '@/types/product';
 
 export const PRODUCT_PARTS: ProductPart[] = [
-  { id: 'part1', name: '前片' },
-  { id: 'part2', name: '后片' },
-  { id: 'part3', name: '袖子' },
+  { id: 'frontButton', name: '前扣' },
+  { id: 'cover', name: '盖子' },
+  { id: 'mainBody', name: '主体' },
+  { id: 'insert', name: '插片' },
+  { id: 'logo', name: 'LOGO' },
 ] as const; 

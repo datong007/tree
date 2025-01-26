@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   title: 'Product Customization App',
@@ -19,6 +20,7 @@ export default function RootLayout({
           <div className="min-h-screen">
             {children}
           </div>
+          <Toaster position="top-center" />
         </ErrorBoundary>
       </body>
     </html>

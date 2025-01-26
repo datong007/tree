@@ -9,6 +9,10 @@ const nextConfig = {
       test: /\.(mp3)$/,
       type: 'asset/resource',
     });
+    config.module.rules.push({
+      test: /\.(glb|gltf)$/,
+      type: 'asset/resource',
+    });
     return config;
   },
 }
