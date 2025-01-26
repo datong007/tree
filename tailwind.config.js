@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        'spin-slow': 'spin 60s linear infinite',
+        'spin-slow': 'spin 8s linear infinite',
+        'bounce-delayed': 'bounce 1s infinite 0.5s',
         'gradient-x': 'gradient-x 15s ease infinite',
       },
       keyframes: {

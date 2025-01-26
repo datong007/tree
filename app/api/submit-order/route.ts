@@ -1,32 +1,29 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 
-// Define Order type directly since import is failing
-interface Order {
-  orderNumber: string;
-  status: string;
-  submitTime: string;
-  customerInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    country: string;
-  };
-  productInfo: {
-    productId: string;
-    quantity: number;
-  };
+interface CustomerInfo {
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  message?: string;
+}
+
+interface OrderData {
+  orderNumber: any;
+  submitTime: any;
+  status: any;
+  customerInfo: CustomerInfo;
   customization: {
-    selectedColors: string[];
-    customPantones: string[];
+    selectedColors: Record<string, string>;
+    customPantones: Record<string, string>;
   };
-  notes?: string;
 }
 
 // 模拟数据库存储
-let orders: any[] = [];
+let orders: OrderData[] = [];
 
-// 生成订单号的函数
+// 生成订单号
 function generateOrderNumber() {
   const date = new Date();
   const year = date.getFullYear().toString().slice(-2);
@@ -40,6 +37,16 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
+    // 验证必填字段
+    const { customerInfo, customization } = body as OrderData;
+    
+    if (!customerInfo?.name || !customerInfo?.email || !customerInfo?.phone || !customerInfo?.country) {
+      return NextResponse.json(
+        { success: false, error: '请填写所有必填信息' },
+        { status: 400 }
+      );
+    }
+
     // 生成订单号
     const orderNumber = generateOrderNumber();
     
@@ -48,28 +55,28 @@ export async function POST(request: Request) {
       orderNumber,
       status: 'pending',
       submitTime: new Date().toISOString(),
-      customerInfo: body.customerInfo,
-      customization: body.customization,
+      ...body,
     };
     
-    // 保存订单到模拟数据库
+    // 保存订单
     orders.push(newOrder);
     
-    console.log('New order created:', newOrder); // 添加日志
+    // 这里可以添加发送邮件通知等功能
     
-    // 返回成功响应
+    console.log('New order created:', newOrder);
+    
     return NextResponse.json({
       success: true,
       orderNumber,
-      message: '订单提交成功'
+      message: '获取报价成功'
     });
     
   } catch (error) {
-    console.error('提交订单失败:', error);
+    console.error('Order submission error:', error);
     return NextResponse.json(
       { 
         success: false, 
-        error: '订单提交失败，请重试' 
+        error: '获取报价失败，请重试' 
       },
       { status: 500 }
     );

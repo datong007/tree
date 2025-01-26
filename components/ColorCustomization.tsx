@@ -17,7 +17,6 @@ export default function ColorCustomization({
 }: ColorCustomizationProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-xl font-semibold mb-4">颜色定制</h2>
       <div className="space-y-6">
         {PRODUCT_PARTS.map(part => (
           <div key={part.id} className="space-y-2">

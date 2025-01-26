@@ -57,7 +57,7 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-[600px] w-full bg-white rounded-lg shadow-sm p-4">
       <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        在线咨询
+        智能助手
       </h2>
       
       {/* Messages Area */}
