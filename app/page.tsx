@@ -13,7 +13,7 @@ export default function Home() {
         <RotatingTitle />
         
         <Link 
-          href="/product-customization/pb-a001"
+          href="/product-customization"
           className="inline-block px-8 py-3 text-lg font-semibold text-white 
             bg-gradient-to-r from-blue-500 to-purple-500 
             rounded-full shadow-lg hover:shadow-xl 

@@ -94,7 +94,6 @@ export default function ModelViewer({
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-xl font-semibold mb-4">3D模型预览</h2>
       <div 
         ref={containerRef} 
         className="relative w-full" 

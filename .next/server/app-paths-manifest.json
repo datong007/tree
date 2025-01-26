@@ -1,4 +1,7 @@
 {
-  "/product-customization/[productId]/page": "app/product-customization/[productId]/page.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/page": "app/page.js",
+  "/product-customization/page": "app/product-customization/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/chat/route": "app/api/chat/route.js",
+  "/product-customization/[productId]/page": "app/product-customization/[productId]/page.js"
 }

@@ -2,11 +2,11 @@ import { Category, Filter } from '@/types/filter';
 
 export const CATEGORIES: Category[] = [
   { id: 'all', name: '全部' },
-  { id: 'plastic-box', name: 'PLASTIC BOX' },
-  { id: 'plastic-accessories', name: 'PLASTIC ACCESSORIES' },
-  { id: 'carp', name: 'CARP' },
-  { id: 'feeder', name: 'FEEDER' },
-  { id: 'metal', name: 'METAL' },
+  { id: 'azura', name: 'AZURA' },
+  { id: 'flagman', name: 'FLAGMAN' },
+  { id: 'volzhanka', name: 'VOLZHANKA' },
+  { id: 'feeder', name: 'FEEDER CONCEPT' },
+  { id: 'allvega', name: 'ALLVEGA' },
 ];
 
 export const FILTERS: Filter[] = [

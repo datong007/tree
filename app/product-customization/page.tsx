@@ -1,188 +1,110 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { AppConfig } from '@/config/app-config'
+import { useState } from 'react'
 import PageLayout from '@/components/PageLayout'
 import SearchBar from '@/components/SearchBar'
 import CategoryFilter from '@/components/CategoryFilter'
-import ProductImage from '@/components/ProductImage'
-import ModelViewer from '@/components/ModelViewer'
-import ExpandedView from '@/components/ExpandedView'
-import ColorCustomization from '@/components/ColorCustomization'
-import OrderForm from '@/components/OrderForm'
-import { getProductById } from '@/config/products'
+import ProductCard from '@/components/ProductCard'
+import { PLASTIC_BOX_PRODUCTS } from '@/config/products'
 
 export default function ProductCustomizationPage() {
-  const [selectedColors, setSelectedColors] = useState({});
-  const [customPantones, setCustomPantones] = useState({});
-  const [currentProduct, setCurrentProduct] = useState({
-    id: 'default',
-    title: AppConfig.product.defaultTitle,
-    imagePath: AppConfig.product.defaultImagePath,
-    modelPath: AppConfig.product.defaultModelPath,
-  });
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [filteredProducts, setFilteredProducts] = useState(PLASTIC_BOX_PRODUCTS)
 
   const handleSearch = (query: string) => {
-    console.log('Search:', query);
-    // 这里可以根据搜索词更新产品标题
-    // 示例：如果搜索词匹配某个产品，则更新标题
-    if (query) {
-      // 这里应该是实际的产品搜索逻辑
-      // 示例仅作演示
-      const matchedProduct = findProductByTitle(query);
-      if (matchedProduct) {
-        setCurrentProduct({
-          ...currentProduct,
-          id: String(matchedProduct.id), // Convert number to string
-          title: matchedProduct.title as typeof AppConfig.product.defaultTitle,
-          imagePath: matchedProduct.imagePath as typeof AppConfig.product.defaultImagePath,
-          modelPath: matchedProduct.modelPath as typeof AppConfig.product.defaultModelPath,
-        });
-      }
-    }
-  };
-
-  const handleCategoryChange = (category: string, series?: string) => {
-    console.log('Category:', category, 'Series:', series);
-    // 这里可以根据类目和系列加载相应的产品数据
-    if (series) {
-      // 处理特定系列的产品
-      console.log(`Loading ${series} products from ${category} category`);
-    } else {
-      // 处理整个类目的产品
-      console.log(`Loading all products from ${category} category`);
-    }
-  };
-
-  const handleFilterChange = (filterId: string, value: string) => {
-    console.log('Filter:', filterId, value);
-  };
-
-  const handleColorChange = (partId: string, color: string) => {
-    setSelectedColors(prev => ({
-      ...prev,
-      [partId]: color
-    }));
-  };
-
-  const handleCustomPantoneChange = (partId: string, pantone: string) => {
-    setCustomPantones(prev => ({
-      ...prev,
-      [partId]: pantone
-    }));
-  };
-
-  const handleSubmitOrder = async (formData: any) => {
-    try {
-      const response = await fetch('/api/submit-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('提交失败');
-      }
-
-      const data = await response.json();
-      return data;
-      
-    } catch (error) {
-      console.error('提交订单时出错:', error);
-      throw error;
-    }
-  };
+    setSearchQuery(query)
+    filterProducts(query, selectedCategory)
+  }
 
   const handleImageSearch = async (file: File) => {
-    console.log('Image search:', file);
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
+    console.log('Image search:', file)
+  }
 
-      const response = await fetch('/api/image-search', {
-        method: 'POST',
-        body: formData,
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    let filtered = PLASTIC_BOX_PRODUCTS;
+    
+    if (category !== 'all') {
+      filtered = filtered.filter(product => {
+        // Check both brand and tags for category matching
+        const matchesBrand = product.brand.toLowerCase() === category.toLowerCase();
+        const matchesTag = product.tags?.some(tag => tag.toLowerCase() === category.toLowerCase());
+        return matchesBrand || matchesTag;
       });
-
-      if (!response.ok) {
-        throw new Error('图片搜索失败');
-      }
-
-      const data = await response.json();
-      if (data.products && data.products.length > 0) {
-        // 更新搜索结果
-        setCurrentProduct({
-          ...currentProduct,
-          title: data.products[0].title,
-          imagePath: data.products[0].imagePath,
-          modelPath: data.products[0].modelPath,
-        });
-      }
-    } catch (error) {
-      console.error('图片搜索出错:', error);
-      // 可以添加错误提示
     }
-  };
+    
+    if (searchQuery) {
+      filtered = filtered.filter(product => 
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.model.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
+    setFilteredProducts(filtered);
+  }
+
+  const handleFilterChange = (filters: any) => {
+    console.log('Filters:', filters)
+  }
+
+  const filterProducts = (query: string, category: string) => {
+    let filtered = PLASTIC_BOX_PRODUCTS
+    
+    if (query) {
+      filtered = filtered.filter(product => 
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.model.toLowerCase().includes(query.toLowerCase())
+      )
+    }
+
+    if (category !== 'all') {
+      filtered = filtered.filter(product => product.category === category)
+    }
+
+    setFilteredProducts(filtered)
+  }
 
   return (
     <PageLayout>
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-        <SearchBar 
-          onSearch={handleSearch}
-          onImageSearch={handleImageSearch}
-          placeholder="搜索产品..."
-        />
-
-        <CategoryFilter
-          onCategoryChange={handleCategoryChange}
-          onFilterChange={handleFilterChange}
-          onSearch={(query) => console.log('Category search:', query)}
-        />
-
-        <div className="grid grid-cols-3 gap-8">
-          <div className="col-span-2">
-            <ProductImage
-              imagePath={currentProduct.imagePath}
-              title={currentProduct.title}
-              selectedColors={selectedColors}
-            />
-          </div>
-          <div className="col-span-1">
-            <ModelViewer
-              modelPath={currentProduct.modelPath}
-              selectedColors={selectedColors}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-8">
-          <div className="col-span-2">
-            <ExpandedView
-              imagePath={currentProduct.imagePath}
-              selectedColors={selectedColors}
-            />
-          </div>
-          <div className="col-span-1">
-            <ColorCustomization
-              onColorChange={handleColorChange}
-              selectedColors={selectedColors}
-              customPantones={customPantones}
-              onCustomPantoneChange={handleCustomPantoneChange}
-            />
-          </div>
-        </div>
-
-        <div className="max-w-2xl mx-auto">
-          <OrderForm
-            selectedColors={selectedColors}
-            onSubmit={handleSubmitOrder}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="space-y-6 mb-8">
+          <SearchBar 
+            onSearch={handleSearch}
+            onImageSearch={handleImageSearch}
+            placeholder="搜索产品..."
           />
+
+          <CategoryFilter
+            onCategoryChange={handleCategoryChange}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={{
+                id: product.id,
+                name: product.title,
+                title: product.title,
+                model: product.model,
+                imageUrl: product.images.overall,
+                features: product.features || [],
+                specifications: product.specifications,
+                isNew: product.isNew || false
+              }}
+            />
+          ))}
+          {filteredProducts.length === 0 && (
+            <div className="col-span-full text-center py-12">
+              <p className="text-gray-500">未找到匹配的产品</p>
+            </div>
+          )}
         </div>
       </div>
     </PageLayout>
-  );
+  )
 }
 
 // 示例产品搜索函数

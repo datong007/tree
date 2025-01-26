@@ -17,6 +17,7 @@ export default function ChatDialog() {
   // 发送文本消息
   const handleSendMessage = async () => {
     if (!input.trim()) return;
+    
     const userMessage: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
@@ -29,10 +30,26 @@ export default function ChatDialog() {
         body: JSON.stringify({ message: input }),
       });
 
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: data.response 
+      }]);
     } catch (error) {
       console.error('Chat error:', error);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: '抱歉，处理您的消息时出现错误，请稍后重试。' 
+      }]);
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +161,7 @@ export default function ChatDialog() {
         />
         <button
           onClick={handleSendMessage}
-          disabled={!input.trim()}
+          disabled={!input.trim() || isLoading}
           className="p-2 bg-blue-500 text-white rounded-full disabled:opacity-50"
         >
           <FaPaperPlane />
