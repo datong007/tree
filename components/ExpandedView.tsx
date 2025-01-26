@@ -27,9 +27,9 @@ export default function ExpandedView({
   }
 
   return (
-    <div className="border rounded-lg p-4">
+    <div className="border rounded-lg p-4 bg-white">
       <h2 className="text-xl font-semibold mb-4">展开视图</h2>
-      <div className="relative w-full" style={{ aspectRatio: '1/1.4' }}>
+      <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         <Image 
           src={`/api/product-expanded-view?${new URLSearchParams(selectedColors)}`}
           alt="Expanded View"
@@ -37,7 +37,7 @@ export default function ExpandedView({
           className={`object-contain ${className}`}
           onError={handleImageError}
           priority
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
     </div>

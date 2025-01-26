@@ -16,10 +16,9 @@ const STANDARD_COLORS: ColorOption[] = [
   { id: 'custom', value: 'custom', name: '自定义色号', pantone: '' },
 ];
 
-export const AVAILABLE_COLORS = {
-  frontButton: STANDARD_COLORS,
-  cover: STANDARD_COLORS,
-  mainBody: STANDARD_COLORS,
-  insert: STANDARD_COLORS,
-  logo: STANDARD_COLORS,
-} as const; 
+export const AVAILABLE_COLORS = [
+  { id: 'black', value: '#000000', name: '黑色', pantone: 'Black 6 C' },
+  { id: 'white', value: '#FFFFFF', name: '白色', pantone: 'White' },
+  { id: 'navy', value: '#000080', name: '藏青', pantone: '282 C' },
+  { id: 'gray', value: '#808080', name: '灰色', pantone: 'Cool Gray 8 C' }
+]; 

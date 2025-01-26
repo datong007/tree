@@ -2,17 +2,14 @@
 
 import { useState } from 'react';
 import { CustomizationOrder } from '@/types/order';
+import { ProductColors } from '@/types/product';
 
 interface OrderFormProps {
-  selectedCategory: string;
-  activeFilters: Record<string, string>;
-  selectedColors: Record<string, string>;
+  selectedColors: ProductColors;
   onSubmit: (order: CustomizationOrder) => Promise<void>;
 }
 
 export default function OrderForm({
-  selectedCategory,
-  activeFilters,
   selectedColors,
   onSubmit
 }: OrderFormProps) {
@@ -23,7 +20,6 @@ export default function OrderForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     onSubmit({
       selectedColors,
       quantity,

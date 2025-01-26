@@ -15,6 +15,10 @@ const nextConfig = {
     });
     return config;
   },
+  // 添加端口配置
+  serverOptions: {
+    port: 3000
+  }
 }
 
 module.exports = nextConfig 

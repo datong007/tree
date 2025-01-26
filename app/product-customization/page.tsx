@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import ProductImage from '@/components/ProductImage'
-import ProductLayout from '@/components/ProductLayout'
 import ColorCustomization from '@/components/ColorCustomization'
 import CategoryFilter from '@/components/CategoryFilter'
 import OrderForm from '@/components/OrderForm'
@@ -11,7 +10,6 @@ import ExpandedView from '@/components/ExpandedView'
 import { ProductColors } from '@/types/product'
 import { CustomizationOrder } from '@/types/order'
 import { toast } from 'react-hot-toast' // 需要安装: npm install react-hot-toast
-import Link from 'next/link'
 
 export default function ProductCustomizationPage() {
   const [selectedColors, setSelectedColors] = useState<ProductColors>({});
@@ -86,26 +84,23 @@ export default function ProductCustomizationPage() {
       />
       
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* 产品展示区域 */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <ProductImage selectedColors={selectedColors} />
           <ModelViewer selectedColors={selectedColors} />
-          <ExpandedView selectedColors={selectedColors} />
           <ColorCustomization 
             selectedColors={selectedColors}
             onColorChange={handleColorChange}
             customPantones={customPantones}
             onCustomPantoneChange={handleCustomPantoneChange}
           />
+          <ExpandedView selectedColors={selectedColors} />
         </div>
-
-        {/* 订单表单区域 */}
-        <div className="mt-8 max-w-2xl mx-auto">
+        <div className="mt-8">
           <OrderForm 
-            selectedCategory={selectedCategory}
-            activeFilters={activeFilters}
             selectedColors={selectedColors}
             onSubmit={handleSubmitOrder}
+            selectedCategory={selectedCategory}
+            activeFilters={{}}
           />
         </div>
       </div>

@@ -146,26 +146,10 @@ export default function ModelViewer({
 
   return (
     <div className={`border rounded-lg p-4 bg-white ${className}`}>
-      <h2 className="text-xl font-semibold mb-4">3D 模型展示</h2>
-      
-      {/* 预设视角按钮 */}
-      <div className="flex space-x-2 mb-4">
-        {presetViews.map((view) => (
-          <button
-            key={view.name}
-            onClick={() => handlePresetView(view.position)}
-            className="px-3 py-1 text-sm border rounded-md hover:bg-gray-50"
-          >
-            {view.name}
-          </button>
-        ))}
+      <h2 className="text-xl font-semibold mb-4">3D 模型预览</h2>
+      <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
+        <p className="text-gray-500">3D 模型加载中...</p>
       </div>
-
-      <div 
-        ref={containerRef} 
-        className="w-full" 
-        style={{ aspectRatio: '16/9' }}
-      />
     </div>
   );
 } 

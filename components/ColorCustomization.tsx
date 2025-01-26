@@ -1,7 +1,13 @@
 import { PRODUCT_PARTS } from '@/config/product-parts';
 import { AVAILABLE_COLORS } from '@/config/colors';
-import { useState } from 'react';
-import type { ColorCustomizationProps } from '@/types/product';
+import { ProductColors } from '@/types/product';
+
+interface ColorCustomizationProps {
+  onColorChange: (partId: string, color: string) => void;
+  selectedColors: ProductColors;
+  customPantones: Record<string, string>;
+  onCustomPantoneChange: (partId: string, value: string) => void;
+}
 
 export default function ColorCustomization({
   onColorChange,

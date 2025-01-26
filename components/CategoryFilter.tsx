@@ -13,78 +13,61 @@ interface CategoryFilterProps {
 export default function CategoryFilter({
   onCategoryChange,
   onFilterChange,
-  onSearch,
+  onSearch
 }: CategoryFilterProps) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
 
   return (
     <div className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* 搜索栏 */}
-        <div className="py-4">
-          <SearchBar onSearch={onSearch} />
-        </div>
-
-        {/* 分类和筛选 */}
-        <div className="flex flex-col sm:flex-row items-center justify-between py-4 space-y-4 sm:space-y-0">
-          {/* 分类列表 */}
-          <div className="flex space-x-8">
-            {CATEGORIES.map((category) => (
+      <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center gap-4">
+          {/* 分类选择 */}
+          <div className="flex gap-2">
+            {['all', 'shirts', 'pants', 'accessories'].map((category) => (
               <button
-                key={category.id}
-                onClick={() => {
-                  setActiveCategory(category.id);
-                  onCategoryChange(category.id);
-                }}
-                className={`text-sm font-medium px-2 py-1 rounded-md transition-colors
-                  ${activeCategory === category.id
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-600 hover:text-blue-600'
-                  }`}
+                key={category}
+                onClick={() => onCategoryChange(category)}
+                className="px-4 py-2 rounded-md hover:bg-gray-100"
               >
-                {category.name}
+                {category === 'all' ? '全部' : 
+                 category === 'shirts' ? '衬衫' :
+                 category === 'pants' ? '裤子' : '配饰'}
               </button>
             ))}
           </div>
 
-          {/* 筛选按钮组 */}
-          <div className="flex space-x-4">
-            {FILTERS.map((filter) => (
-              <div key={filter.id} className="relative">
-                <button
-                  onClick={() => setExpandedFilter(
-                    expandedFilter === filter.id ? null : filter.id
-                  )}
-                  className="text-sm font-medium text-gray-600 hover:text-blue-600 
-                    px-3 py-1 rounded-md border hover:border-blue-600 transition-colors"
-                >
-                  {filter.name}
-                </button>
-                
-                {/* 下拉选项 */}
-                {expandedFilter === filter.id && (
-                  <div className="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div className="py-1" role="menu">
-                      {filter.options.map((option) => (
-                        <button
-                          key={option.id}
-                          onClick={() => {
-                            onFilterChange(filter.id, option.id);
-                            setExpandedFilter(null);
-                          }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 
-                            hover:bg-gray-100 hover:text-gray-900"
-                          role="menuitem"
-                        >
-                          {option.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+          {/* 搜索框 */}
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="搜索产品..."
+              onChange={(e) => onSearch(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* 筛选选项 */}
+          <div className="flex gap-4">
+            <select
+              onChange={(e) => onFilterChange('material', e.target.value)}
+              className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">材质</option>
+              <option value="cotton">棉质</option>
+              <option value="linen">亚麻</option>
+              <option value="wool">羊毛</option>
+            </select>
+
+            <select
+              onChange={(e) => onFilterChange('style', e.target.value)}
+              className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">风格</option>
+              <option value="casual">休闲</option>
+              <option value="business">商务</option>
+              <option value="formal">正装</option>
+            </select>
           </div>
         </div>
       </div>
