@@ -5,12 +5,13 @@ const titles = [
   { text: "Welcome to Product Customization System", lang: "en" },
   { text: "製品カスタマイズシステムへようこそ", lang: "ja" },
   { text: "제품 맞춤 시스템에 오신 것을 환영합니다", lang: "ko" },
-  { text: "Selamat datang ke Sistem Penyesuaian Produk", lang: "ms" },
   { text: "Добро пожаловать в систему настройки продукта", lang: "ru" },
-  { text: "Witamy w systemie personalizacji produktów", lang: "pl" },
-  { text: "Willkommen beim Produkt-Anpassungssystem", lang: "de" },
-  { text: "Bienvenue dans le système de personnalisation de produits", lang: "fr" },
-  { text: "Bienvenido al sistema de personalización de productos", lang: "es" }
+  { text: "Witamy w Systemie Personalizacji", lang: "pl" },
+  { text: "Willkommen im Produktanpassungssystem", lang: "de" },
+  { text: "Bienvenido al Sistema de Personalización", lang: "es" },
+  { text: "Bienvenue dans le Système de Personnalisation", lang: "fr" },
+  { text: "ยินดีต้อนรับสู่ระบบการปรับแต่งผลิตภัณฑ์", lang: "th" },
+  { text: "Selamat datang ke Sistem Penyesuaian Produk", lang: "ms" }
 ];
 
 export default function RotatingTitle() {
@@ -31,9 +32,11 @@ export default function RotatingTitle() {
 
   return (
     <h1 
-      className={`text-4xl font-bold mb-8 text-gray-800 transition-opacity duration-300 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+      className={`text-5xl font-bold mb-8 transition-all duration-300
+        ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
+        bg-clip-text text-transparent bg-gradient-to-r 
+        from-blue-400 via-purple-400 to-pink-400
+        drop-shadow-[0_0_15px_rgba(191,219,254,0.5)]`}
       lang={titles[currentIndex].lang}
     >
       {titles[currentIndex].text}

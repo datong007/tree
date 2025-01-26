@@ -2,9 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost']
+    domains: ['localhost'],
   },
   webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(mp3)$/,
+      type: 'asset/resource',
+    });
     config.module.rules.push({
       test: /\.(glb|gltf)$/,
       type: 'asset/resource',
@@ -13,4 +17,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig

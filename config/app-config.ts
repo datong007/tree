@@ -1,6 +1,7 @@
 export const AppConfig = {
+  version: '3.0.0',
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
     timeout: 5000,
   },
   images: {

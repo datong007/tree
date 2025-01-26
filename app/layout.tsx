@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh">
+    <html>
       <body className="antialiased bg-gray-50">
         <ErrorBoundary>
           <div className="min-h-screen">

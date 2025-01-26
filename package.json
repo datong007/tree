@@ -1,6 +1,7 @@
 {
+  "name": "product-customization-system",
+  "version": "3.0.0",
   "scripts": {
-    "predev": "node scripts/check-port.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

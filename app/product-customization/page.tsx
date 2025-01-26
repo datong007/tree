@@ -1,80 +1,47 @@
 'use client'
 
 import { useState } from 'react'
-import ProductImage from '@/components/ProductImage'
-import ColorCustomization from '@/components/ColorCustomization'
+import PageLayout from '@/components/PageLayout'
+import SearchBar from '@/components/SearchBar'
 import CategoryFilter from '@/components/CategoryFilter'
-import OrderForm from '@/components/OrderForm'
+import ProductImage from '@/components/ProductImage'
 import ModelViewer from '@/components/ModelViewer'
 import ExpandedView from '@/components/ExpandedView'
-import { ProductColors } from '@/types/product'
-import { CustomizationOrder } from '@/types/order'
-import { toast } from 'react-hot-toast' // 需要安装: npm install react-hot-toast
-import PageLayout from '@/components/PageLayout'
-import ProductLayout from '@/components/ProductLayout'
-import SearchBar from '@/components/SearchBar'
+import ColorCustomization from '@/components/ColorCustomization'
+import OrderForm from '@/components/OrderForm'
 
 export default function ProductCustomizationPage() {
-  const [selectedColors, setSelectedColors] = useState<ProductColors>({});
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
-  const [searchQuery, setSearchQuery] = useState('');
-  const [customPantones, setCustomPantones] = useState<Record<string, string>>({});
-  const handleColorChange = (partName: string, color: { color: string; pantone?: string; name: string }) => {
-    setSelectedColors(prev => ({
-      ...prev,
-      [partName]: color
-    }));
-  };
+  const [selectedColors, setSelectedColors] = useState({});
+  const [customPantones, setCustomPantones] = useState({});
 
-  const handleCustomPantoneChange = (partId: string, value: string) => {
-    setCustomPantones(prev => ({
-      ...prev,
-      [partId]: value
-    }));
+  const handleSearch = (query: string) => {
+    console.log('Search:', query);
   };
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    // 这里可以添加基于分类的产品筛选逻辑
+    console.log('Category:', category);
   };
 
-  const handleFilterChange = (filterId: string, optionId: string) => {
-    setActiveFilters(prev => ({
+  const handleFilterChange = (filterId: string, value: string) => {
+    console.log('Filter:', filterId, value);
+  };
+
+  const handleColorChange = (partId: string, color: string) => {
+    setSelectedColors(prev => ({
       ...prev,
-      [filterId]: optionId
+      [partId]: color
     }));
-    // 这里可以添加基于筛选的产品筛选逻辑
   };
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    // 实现搜索逻辑
+  const handleCustomPantoneChange = (partId: string, pantone: string) => {
+    setCustomPantones(prev => ({
+      ...prev,
+      [partId]: pantone
+    }));
   };
 
-  const handleSubmitOrder = async (order: CustomizationOrder) => {
-    try {
-      const response = await fetch('/api/submit-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(order),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || '提交失败');
-      }
-
-      toast.success('定制信息提交成功！');
-      return data;
-    } catch (error) {
-      console.error('Submit error:', error);
-      toast.error('提交失败，请稍后重试');
-      throw error;
-    }
+  const handleSubmitOrder = (data: any) => {
+    console.log('Order submitted:', data);
   };
 
   return (
