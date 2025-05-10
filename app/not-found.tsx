@@ -8,3 +8,18 @@ export default function NotFound() {
     </div>
   )
 } 
+
+export interface ProductColors {
+  [key: string]: string;
+} 
+
+export interface CustomizationOrder {
+  selectedColors: ProductColors;
+  size: string;
+  quantity: number;
+  customerNote?: string;
+  contactInfo: {
+    name: string;
+    email: string;
+  };
+} 

@@ -1,36 +1,22 @@
 import Image from 'next/image';
 import { ProductColors } from '@/types/product';
+import { ReactNode } from 'react';
 
 interface ProductLayoutProps {
-  children: React.ReactNode;
+  children: [ReactNode, ReactNode];
 }
 
 export default function ProductLayout({ children }: ProductLayoutProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-      {children}
-    </div>
-  );
-}
-
-ProductLayout.Expanded = function ExpandedView({ 
-  className,
-  selectedColors 
-}: {
-  className?: string;
-  selectedColors: ProductColors;
-}) {
-  return (
-    <div className="border rounded-lg p-4">
-      <div className="relative w-full aspect-square">
-        <Image 
-          src="/api/product-expanded-view"
-          alt="Product Expanded View"
-          fill
-          className={`object-contain ${className}`}
-          priority
-        />
+    <div className="flex w-full gap-8">
+      <div className="w-2/3">
+        {/* 左侧内容 */}
+        {children[0]}
+      </div>
+      <div className="w-1/3">
+        {/* 右侧内容 */}
+        {children[1]}
       </div>
     </div>
   );
-}; 
+} 
